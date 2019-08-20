@@ -35,15 +35,3 @@ class ClickChain:
             cursor, streams = self.redis.scan(cursor=cursor, match=self.prefix + '*', count=1000)
             for stream in streams:
                 yield int(stream.decode().replace(self.prefix + '_', ''))
-
-
-def with_cache(cache):
-    def meta_wrapper(f):
-        def wrapper(*args, **kwargs):
-            if 'user_id' in kwargs and 'item' in kwargs:
-                cache.set(user_id=kwargs['user_id'], item=kwargs['item'])
-            return f(*args, **kwargs)
-
-        return wrapper
-
-    return meta_wrapper
