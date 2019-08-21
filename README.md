@@ -26,3 +26,5 @@ chain.last_n_pcs(2)
 
 > [0, 1, 2, 3, 4]
 ```
+
+To automatically store this in CSV use https://github.com/uSasha/drainpipe
