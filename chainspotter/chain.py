@@ -1,8 +1,11 @@
 import inspect
+import logging
 import time
 from typing import List
 
 import redis
+
+logger = logging.getLogger('drainpipe')
 
 
 class ClickChain:
@@ -18,6 +21,7 @@ class ClickChain:
         self.redis = redis_connection
         self.prefix = prefix
         self.limit = limit
+        logging.info('New clickchain created, prefix: %s, limit: %s', prefix, limit)
 
     def last_n_pcs(self, user_id: int, count: int = None) -> List[int]:
         """
@@ -47,6 +51,7 @@ class ClickChain:
         :param item: item ID
         """
         self.redis.xadd(f'{self.prefix}_{user_id}', {'item': item}, maxlen=self.limit)
+        logging.debug('Added new item %s for user %s clickchain', item, user_id)
 
     def __iter__(self) -> str:
         """
@@ -77,6 +82,7 @@ def to_chain(prefix: str, redis_connection: redis.client.Redis, limit: int = Non
             user = func_args[user_id_arg]
             item = func_args[item_id_arg]
             redis_connection.xadd(f'{prefix}_{user}', {'item': item}, maxlen=limit)
+            logging.debug('Added new item %s for user %s clickchain', item, user)
             return func(*args, **kwargs)
         return wrapper
     return dump_args
