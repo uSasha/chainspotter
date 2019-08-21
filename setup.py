@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="chainspotter",
-    version="0.0.1",
+    version="0.0.2",
     author="Alexander Dmitriev",
     author_email="sasha.engineer@gmail.com",
     description="Redis Streams wrapper for user-item interaction tracking and fetching",
