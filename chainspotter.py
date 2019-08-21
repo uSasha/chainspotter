@@ -40,7 +40,7 @@ class ClickChain:
         stream_content = self.redis.xrange(f'{self.prefix}_{user_id}', min=now_ms - hours * 60 * 60 * 1000)
         return [int(log[b'item']) for timestamp, log in stream_content]
 
-    def set(self, user_id: int, item: int) -> None:
+    def add(self, user_id: int, item: int) -> None:
         """
         Add item to user history
         :param user_id: user ID
